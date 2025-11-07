@@ -280,3 +280,6 @@ class RegistroDespliegue(models.Model):
     fecha_hora_salida = models.DateTimeField(blank=True, null=True)
     llego_destino = models.BooleanField(default=False)
     fecha_hora_llegada = models.DateTimeField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.operador.user.username}-{self.destino}"
