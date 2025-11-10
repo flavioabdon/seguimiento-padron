@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'operaciones.apps.OperacionesConfig',
     'rest_framework',
     # theme
-    'suit',
+    'grappelli',
 ]
 
 MIDDLEWARE = [
