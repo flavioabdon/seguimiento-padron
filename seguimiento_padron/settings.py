@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     #'operaciones',
     'operaciones.apps.OperacionesConfig',
     'rest_framework',
+    # theme
+    'suit',
 ]
 
 MIDDLEWARE = [
