@@ -5,18 +5,16 @@ from django.contrib.auth.models import User
 class Kit(models.Model):
     codigo_kit = models.CharField(max_length=100, unique=True)
     ESCANER_CHOICES = [
-        ('Epson 110', 'Epson 110'),
-        ('Epson 100', 'Epson 100'),
+        ('CANON 110', 'CANON 110'),
+        ('CANON 100', 'CANON 100'),
     ]
     CAMARA_CHOICES = [
-        ('Logitech 110', 'Logitech 110'),
-        ('Logitech 150', 'Logitech 150'),
+        ('CANON 110', 'CANON 110'),
+        ('CANON 150', 'CANON 150'),
     ]
     IMPRESORA_CHOICES = [
-        ('HP LPB3000', 'HP LPB3000'),
-        ('HP LPB6000', 'HP LPB6000'),
-        ('CANON 2700', 'CANON 2700'),
-        ('CANON 2900', 'CANON 2900'),
+        ('CANON LPB3000', 'CANON LPB3000'),
+        ('CANON LPB6000', 'CANON LPB6000'),
         ('BROTHER 2700', 'BROTHER 2700'),
     ]
     ESTACION_CHOICES = [
