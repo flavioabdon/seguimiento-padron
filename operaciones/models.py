@@ -50,34 +50,45 @@ class Kit(models.Model):
         null=True
     )
     escaner = models.BooleanField(default=False)
+    codigo_escaner = models.CharField(max_length=255, blank=True)
     modelo_escaner = models.CharField(
         max_length=20,
         choices=ESCANER_CHOICES
     )
     camara = models.BooleanField(default=False)
+    codigo_camara = models.CharField(max_length=255, blank=True)
     modelo_camara = models.CharField(
         max_length=20,
         choices=CAMARA_CHOICES
     )
     impresora = models.BooleanField(default=False)
+    codigo_impresora = models.CharField(max_length=255, blank=True)
     modelo_impresora = models.CharField(
         max_length=20,
         choices=IMPRESORA_CHOICES
     )
+    teclado = models.BooleanField(default=False)
+    codigo_teclado = models.CharField(max_length=255, blank=True, null=True)
+    mouse = models.BooleanField(default=False)
+    codigo_mouse = models.CharField(max_length=255, blank=True)
     decadactilar = models.BooleanField(default=False)
-    extension = models.BooleanField(default=False)
+    codigo_decadactilar = models.CharField(max_length=255, blank=True)
     estabilizador = models.BooleanField(default=False)
+    codigo_estabilizador = models.CharField(max_length=255, blank=True)
+    pad_firmas = models.BooleanField(default=False)
+    codigo_pad_firmas = models.CharField(max_length=255, blank=True)
     tripode = models.BooleanField(default=False)
     banner = models.BooleanField(default=False)
-    pad_firmas = models.BooleanField(default=False)
     hub_usb = models.BooleanField(default=False)
+    extension = models.BooleanField(default=False)
     adaptador_3a2 = models.BooleanField(default=False)
+    observaciones = models.TextField(blank=True)
 
     def __str__(self):
         return self.codigo_kit
 
 class Llave(models.Model):
-    codigo_estacion = models.CharField(max_length=100, unique=True)
+    codigo_estacion = models.IntegerField(default=0, unique=True)
     contador_r = models.IntegerField(default=0)
     contador_c = models.IntegerField(default=0)
 
@@ -158,8 +169,23 @@ class Proceso(models.Model):
 class Estacion(models.Model):
     codigo_estacion = models.CharField(max_length=100, unique=True)
     asignada = models.BooleanField(default=False)
-    kit = models.ForeignKey(Kit, on_delete=models.CASCADE)
-    llave = models.ForeignKey(Llave, on_delete=models.CASCADE)
+    FASES_CHOICES = [
+        ('Recepcionado', 'Recepcionado'),
+        ('En revision', 'En revision'),
+        ('Listo para clonacion', 'Listo para Clonacion'),
+        ('Clonacion', 'Clonacion'),
+        ('Listo para masterizacion', 'Listo para masterizacion'),
+        ('Masterizacion', 'Masterizacion'),
+        ('Listo para asignar', 'Listo para asignar'),
+        ('En mantenimiento', 'En mantenimiento'),
+    ]
+    fase = models.CharField(
+        max_length=56,
+        choices=FASES_CHOICES,
+        default='Recepcionado'
+    )
+    kit = models.ForeignKey(Kit, on_delete=models.CASCADE, null=True)
+    llave = models.ForeignKey(Llave, on_delete=models.CASCADE, null=True)
     marca = models.CharField(max_length=100)
     modelo = models.CharField(max_length=100)
     ESTADO_CHOICES = [
@@ -170,7 +196,7 @@ class Estacion(models.Model):
         ('nuevo', 'Nuevo'),
     ]
     estado = models.CharField(
-        max_length=20,
+        max_length=32,
         choices=ESTADO_CHOICES,
         default='funcional'
     )
