@@ -85,3 +85,15 @@ class RegistroDespliegueSerializer(serializers.ModelSerializer):
     class Meta:
         model = RegistroDespliegue
         fields = '__all__'
+
+class ListarOperadoresSerializer(serializers.ModelSerializer):
+    nombre = serializers.CharField(source = 'operador.nombre', read_only=True)
+    apellido_paterno = serializers.CharField(source = 'operador.apellido_paterno', read_only = True)
+    apellido_materno = serializers.CharField(source = 'operador.apellido_materno', read_only = True)
+
+    class Meta:
+        model = RegistroDespliegue
+        fields = ['nombre', 'apellido_paterno', 'apellido_materno', 'fue_desplegado', 'llego_destino']
+
+
+

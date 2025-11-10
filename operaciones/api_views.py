@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializers import CustomTokenObtainPairSerializer
 from .models import (
@@ -11,7 +11,8 @@ from .serializers import (
     KitSerializer, LlaveSerializer, RutaSerializer, ProcesoSerializer,
     EstacionSerializer, MovimientosEstacionSerializer, 
     CoordinadorSerializer, OperadorSerializer,
-    ReporteDiarioSerializer, RegistroDespliegueSerializer, UserSerializer
+    ReporteDiarioSerializer, RegistroDespliegueSerializer, 
+    UserSerializer, ListarOperadoresSerializer
 )
 
 class CustomTokenObtainPairView(TokenObtainPairView):
@@ -60,3 +61,7 @@ class ReporteDiarioViewSet(viewsets.ModelViewSet):
 class RegistroDespliegueViewSet(viewsets.ModelViewSet):
     queryset = RegistroDespliegue.objects.all()
     serializer_class = RegistroDespliegueSerializer
+
+class ListarOperadoresListView(generics.ListAPIView):
+    queryset = RegistroDespliegue.objects.select_related('operador').all()
+    serializer_class = ListarOperadoresSerializer

@@ -6,7 +6,7 @@ from .api_views import (
     KitViewSet, LlaveViewSet, RutaViewSet, ProcesoViewSet, 
     EstacionViewSet, MovimientosEstacionViewSet, CoordinadorViewSet, 
     OperadorViewSet, ReporteDiarioViewSet, RegistroDespliegueViewSet,
-    UserViewSet
+    UserViewSet, ListarOperadoresListView
 )
 from . import views
 
@@ -29,4 +29,5 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('api/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('listar-operadores/', ListarOperadoresListView.as_view(), name='listado-operadores'),
 ]

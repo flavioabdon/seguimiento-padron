@@ -270,12 +270,14 @@ class ReporteDiario(models.Model):
 
 class RegistroDespliegue(models.Model):
     operador = models.ForeignKey(Operador, on_delete=models.CASCADE)
-    latitud = models.CharField(max_length=255, null=True)
-    longitud = models.CharField(max_length=255, null=True)
     destino = models.CharField(max_length=255, null=True)
-    observaciones = models.TextField(blank=True)
+    latitud_despliegue = models.CharField(max_length=255, null=True)
+    longitud_despliegue = models.CharField(max_length=255, null=True)
+    latitud_llegada = models.CharField(max_length=255, null=True)
+    longitud_llegada = models.CharField(max_length=255, null=True)
     estado = models.CharField(max_length=255, null=True)
-    sincronizar = models.BooleanField(default=False)
+    sincronizar = models.BooleanField(default=False)    
+    observaciones = models.TextField(blank=True)
     fue_desplegado = models.BooleanField(default=False)
     fecha_hora_salida = models.DateTimeField(blank=True, null=True)
     llego_destino = models.BooleanField(default=False)
