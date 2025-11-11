@@ -4,7 +4,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import (
     Kit, Llave, Ruta, Proceso, Estacion, 
     MovimientosEstacion, Coordinador, Operador,
-    ReporteDiario, RegistroDespliegue)
+    ReporteDiario, RegistroDespliegue, Item)
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -123,5 +123,7 @@ class ListarOperadoresSerializer(serializers.ModelSerializer):
         model = RegistroDespliegue
         fields = ['nombre', 'apellido_paterno', 'apellido_materno']
 
-
-
+class ItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Item
+        fields = '__all__'

@@ -334,6 +334,6 @@ class Item(models.Model):
     codigo_item = models.CharField(max_length=55, blank=True, null=True)
     serie_item = models.CharField(max_length=55, blank=True, null=True)
     asignado_operador = models.BooleanField(default=False)
-    operador = models.ForeignKey(Operador, on_delete=models.CASCADE, null=True)
+    operador = models.ForeignKey(Operador, on_delete=models.CASCADE, null=True, blank=True)
     descripcion = models.TextField(blank=True)
     observacion = models.TextField(blank=True)

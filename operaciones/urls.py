@@ -6,7 +6,7 @@ from .api_views import (
     KitViewSet, LlaveViewSet, RutaViewSet, ProcesoViewSet, 
     EstacionViewSet, MovimientosEstacionViewSet, CoordinadorViewSet, 
     OperadorViewSet, ReporteDiarioViewSet, RegistroDespliegueViewSet,
-    UserViewSet, ListarOperadoresListView
+    UserViewSet, ListarOperadoresListView, ItemViewSet
 )
 from . import views
 
@@ -22,6 +22,7 @@ router.register(r'coordinadores', CoordinadorViewSet)
 router.register(r'operadores', OperadorViewSet)
 router.register(r'reportesdiarios', ReporteDiarioViewSet)
 router.register(r'registrosdespliegue', RegistroDespliegueViewSet)
+router.register(r'items', ItemViewSet)
 
 urlpatterns = [
     #path('', views.index, name='index'),

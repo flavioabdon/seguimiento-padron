@@ -5,14 +5,14 @@ from .serializers import CustomTokenObtainPairSerializer
 from .models import (
     Kit, Llave, Ruta, Proceso, Estacion, 
     MovimientosEstacion, Coordinador, Operador,
-    ReporteDiario, RegistroDespliegue,
+    ReporteDiario, RegistroDespliegue, Item
 )
 from .serializers import (
     KitSerializer, LlaveSerializer, RutaSerializer, ProcesoSerializer,
     EstacionSerializer, MovimientosEstacionSerializer, 
     CoordinadorSerializer, OperadorSerializer,
     ReporteDiarioSerializer, RegistroDespliegueSerializer, 
-    UserSerializer, ListarOperadoresSerializer
+    UserSerializer, ListarOperadoresSerializer, ItemSerializer
 )
 
 class CustomTokenObtainPairView(TokenObtainPairView):
@@ -65,3 +65,7 @@ class RegistroDespliegueViewSet(viewsets.ModelViewSet):
 class ListarOperadoresListView(generics.ListAPIView):
     queryset = RegistroDespliegue.objects.select_related('operador').all()
     serializer_class = ListarOperadoresSerializer
+
+class ItemViewSet(viewsets.ModelViewSet):
+    queryset = Item.objects.all()
+    serializer_class = ItemSerializer
