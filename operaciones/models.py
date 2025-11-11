@@ -50,19 +50,19 @@ class Kit(models.Model):
     escaner = models.BooleanField(default=False)
     modelo_escaner = models.CharField(
         max_length=20,
-        choices=ESCANER_CHOICES , blank = true
+        choices=ESCANER_CHOICES , blank = True
     )
     codigo_escaner = models.CharField(max_length=255, blank=True)
     camara = models.BooleanField(default=False)
     modelo_camara = models.CharField(
         max_length=20,
-        choices=CAMARA_CHOICES , blank= true
+        choices=CAMARA_CHOICES , blank= True
     )
     codigo_camara = models.CharField(max_length=255, blank=True)
     impresora = models.BooleanField(default=False)
     modelo_impresora = models.CharField(
         max_length=20,
-        choices=IMPRESORA_CHOICES, blank= true
+        choices=IMPRESORA_CHOICES, blank= True
     )
     codigo_impresora = models.CharField(max_length=255, blank=True)
     teclado = models.BooleanField(default=False)
