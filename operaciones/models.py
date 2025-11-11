@@ -88,12 +88,12 @@ class Kit(models.Model):
         return self.codigo_kit
 
 class Llave(models.Model):
-    codigo_estacion = models.IntegerField(default=0, unique=True)
+    nro_estacion = models.IntegerField(default=0, unique=True)
     contador_r = models.IntegerField(default=0)
     contador_c = models.IntegerField(default=0)
 
     def __str__(self):
-        return f"{self.codigo_equipo}C{self.contador_c}R{self.contador_r}"
+        return f"{self.nro_estacion}C{self.contador_c}R{self.contador_r}"
 
 class Ruta(models.Model):
     nombre = models.CharField(max_length=100, unique=True)
@@ -167,7 +167,9 @@ class Proceso(models.Model):
         return f"{self.certificacion_pdse} - {self.cite}"
 
 class Estacion(models.Model):
-    codigo_estacion = models.CharField(max_length=100, unique=True)
+    codigo_equipo = models.CharField(max_length=56, unique=True, blank=True )
+    llave = models.ForeignKey(Llave, on_delete=models.CASCADE, null=True)
+    nro_estacion = models.IntegerField(default=0, unique=True, null=True)
     asignada = models.BooleanField(default=False)
     FASES_CHOICES = [
         ('Recepcionado', 'Recepcionado'),
@@ -185,7 +187,6 @@ class Estacion(models.Model):
         default='Recepcionado'
     )
     kit = models.ForeignKey(Kit, on_delete=models.CASCADE, null=True)
-    llave = models.ForeignKey(Llave, on_delete=models.CASCADE, null=True)
     marca = models.CharField(max_length=100)
     modelo = models.CharField(max_length=100)
     ESTADO_CHOICES = [
@@ -203,7 +204,7 @@ class Estacion(models.Model):
     observacion = models.TextField(blank=True)
 
     def __str__(self):
-        return self.codigo_estacion
+        return f"{self.codigo_equipo} - Llave: {self.llave}"
     
 class MovimientosEstacion(models.Model):
     estacion = models.ForeignKey(Estacion, on_delete=models.CASCADE)
@@ -297,17 +298,44 @@ class ReporteDiario(models.Model):
 class RegistroDespliegue(models.Model):
     operador = models.ForeignKey(Operador, on_delete=models.CASCADE)
     destino = models.CharField(max_length=255, null=True)
-    latitud_despliegue = models.CharField(max_length=255, null=True)
-    longitud_despliegue = models.CharField(max_length=255, null=True)
-    latitud_llegada = models.CharField(max_length=255, null=True)
-    longitud_llegada = models.CharField(max_length=255, null=True)
+    latitud = models.CharField(max_length=255, null=True)
+    longitud = models.CharField(max_length=255, null=True)
+    DESCRIPCION_REPORTE_CHOICES = [
+        ('Despliegue', 'Despliegue'),
+        ('En camino', 'En camino'),
+        ('Incidencia', 'Incidencia'),
+        ('Llego a destino', 'Llego a destino')
+    ]
+    descripcion_reporte = models.CharField(
+        max_length= 56,
+        choices= DESCRIPCION_REPORTE_CHOICES,
+        null = True
+    )
     estado = models.CharField(max_length=255, null=True)
     sincronizar = models.BooleanField(default=False)    
     observaciones = models.TextField(blank=True)
-    fue_desplegado = models.BooleanField(default=False)
-    fecha_hora_salida = models.DateTimeField(blank=True, null=True)
-    llego_destino = models.BooleanField(default=False)
-    fecha_hora_llegada = models.DateTimeField(blank=True, null=True)
-
+    incidencias = models.TextField(blank=True)
+    fecha_hora = models.DateTimeField(blank=True, null=True)
+    
     def __str__(self):
-        return f"{self.operador.user.username}-{self.destino}"
+        return f"{self.operador.user.username}-{self.destino}--{self.descripcion_reporte}"
+
+class Item(models.Model):
+    TIPO_CHOICES = [
+        ('Periferico', 'Periferico'),
+        ('Herramiento', 'Herramienta'),
+        ('Insumo', 'Insumo'),
+        ('Accesorio', 'Accesorio'),
+    ]
+    tipo = models.CharField(
+        max_length=32,
+        choices= TIPO_CHOICES,
+        null=True,
+        blank=True
+    )
+    codigo_item = models.CharField(max_length=55, blank=True, null=True)
+    serie_item = models.CharField(max_length=55, blank=True, null=True)
+    asignado_operador = models.BooleanField(default=False)
+    operador = models.ForeignKey(Operador, on_delete=models.CASCADE, null=True)
+    descripcion = models.TextField(blank=True)
+    observacion = models.TextField(blank=True)

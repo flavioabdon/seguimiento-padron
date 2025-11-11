@@ -29,6 +29,34 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
             'email' : user.email,
             'groups' : [g.name for g in user.groups.all()],
         }
+
+        try:
+            operador = Operador.objects.select_related("estacion").get(user=user)
+            if operador.estacion:
+                id_estacion = operador.estacion.id
+                nro_estacion = operador.estacion.nro_estacion
+            else:
+                id_estacion = 0
+                nro_estacion = 0
+            data["user"]['operador'] = {
+                "id_operador" : operador.id,
+                "ruta" : operador.ruta,
+                "id_estacion" : id_estacion,
+                "nro_estacion" : nro_estacion,
+                "tipo_operador": operador.tipo_operador,
+            }
+        except Operador.DoesNotExist:
+            data["user"]["operador"] = None
+        
+        try:
+            coordinador = Coordinador.objects.get(user=user)
+            data["user"]["coordinador"] = {
+                "id_coordinador": coordinador.id,
+                "ruta": coordinador.ruta,
+            }
+        except Coordinador.DoesNotExist:
+            data["user"]["coordinador"] = None
+
         return data
 
 class UserSerializer(serializers.ModelSerializer):
@@ -93,7 +121,7 @@ class ListarOperadoresSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RegistroDespliegue
-        fields = ['nombre', 'apellido_paterno', 'apellido_materno', 'fue_desplegado', 'llego_destino']
+        fields = ['nombre', 'apellido_paterno', 'apellido_materno']
 
 
 
